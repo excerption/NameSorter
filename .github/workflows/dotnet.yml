@@ -1,16 +1,8 @@
-name: CI
-on:
-  push:
-    branches: 
-      - master
-jobs:
-  build:
-    runs-on: ubuntu-16.04    
-    name: Dotnet build
-    steps:
-      - uses: actions/checkout@master
-      - name: Setup dotnet
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '3.1.100' # SDK Version to use.
-      - run: dotnet build <solution or project>
+version: 1.0.{build}
+image: Visual Studio 2019
+
+before_build:
+- cmd: cd grade-scores && nuget restore
+
+build:
+  verbosity: minimal
