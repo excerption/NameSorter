@@ -12,7 +12,14 @@ jobs:
     - uses: actions/checkout@v2
     
     - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v1
+      uses: microsoft/setup-msbuild@v1  
+      
+    - uses: actions/checkout@master
+    - uses: nuget/setup-nuget@v1
+      with:
+        nuget-api-key: ${{ secrets.NuGetAPIKey }}
+        nuget-version: '5.x'
+    - run: nuget restore NameSorter.sln
 
     - name: Setup NuGet
       uses: NuGet/setup-nuget@v1.0.2
