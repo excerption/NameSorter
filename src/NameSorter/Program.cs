@@ -14,21 +14,29 @@ namespace NameSorter
             {
                 throw new ArgumentException("Input file name with list of names expected as a single argument");
             }
-
-            IReader reader = new FileReader(args[0]);
-
-            var persons = reader.Read();
-            persons.Sort();
-
-            var writers = new IWriter[]
+            
+            try
             {
-                new FileWriter(OutputFileName),
-                new ConsoleWriter(),
-            };
+                IReader reader = new FileReader(args[0]);
 
-            foreach (var writer in writers)
+                var persons = reader.Read();
+                persons.Sort();
+
+                var writers = new IWriter[]
+                {
+                    new FileWriter(OutputFileName),
+                    new ConsoleWriter(),
+                };
+
+                foreach (var writer in writers)
+                {
+                    writer.Write(persons);
+                }
+            }
+            catch (Exception ex)
             {
-                writer.Write(persons);
+                Console.WriteLine(ex.Message);
+                Environment.Exit(-1);
             }
         }
     }
